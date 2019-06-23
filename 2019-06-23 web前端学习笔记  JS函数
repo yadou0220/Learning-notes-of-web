@@ -1,0 +1,94 @@
+2019-06-23  web前端学习笔记
+
+一、函数深入讲解
+
+1、函数的本质是二象性，即调用和对象{}，其中对象{}是其他语言所不具备的性质。
+    1) 对象的定义有两种方式：
+        a. 字面量 {}
+        function add() {          //函数也可以通过这种方式定义
+        }
+        b. 构造函数 new Object()
+        new Function('num1','num2','...')          //函数也可以通过这种方式定义
+    2) 对象可以添加属性和方法，函数也可以。
+    3) 函数可以作为数据值使用，一般用匿名函数表示，可以用变量名调用。函数名和变量名在某种程度上是一样的。
+    var add=function(){
+    };
+    add();
+    4) 函数可以作为参数使用。
+    setTimeout(function(){
+        console.log(1);
+    },1000);
+
+    setTimeout(fn,1000);            //与上面等同
+    function fn(){
+        console.log(1);
+    }
+    5) 函数可以作为返回值
+    function add(){
+        return function(){
+            console.log(1);
+            };
+    }
+    fn()();         //新函数的调用
+
+2、函数的定义（三种方式及区别）
+    1) 字面量：
+        function声明
+            function add() {          
+            }                  //这是一个声明，不是语句，不需要分号
+            add();
+        var赋值表达式
+            var add=function() {
+            };                //这是一个语句，要加分号
+            add();
+        简洁，直观
+    2) 构造函数：
+        var add=new Function('num1','num2', 'return num1+num2;');         //必须用字符串形式，必须加引号
+        臃肿，效率稍差
+
+3、函数的调用
+    1) 普通函数的调用
+        命名函数   add();
+        匿名函数   将其赋值给一个变量 add()；直接调用 (function(){})();  (function(){}());  !+-~function(){}();等；递归调用。
+        递归调用：
+        function factorial(num) {
+            if (num<=1) return 1;             //一定要有终止条件，不然递归太多会报错
+        return num*factorial(num-1);
+        }
+        console.log(factorial(5));
+    2) 特殊函数的调用（方法的调用）
+        合法字符object.method();
+        有非法字符或变量名可以用object['method']();，合法字符也可以用；
+        链式调用。
+    3) 构造函数的调用
+        new Function();       //必须要有new
+    4) 函数的间接调用
+        add.call('第一个参数改变this的指向',1,2,3)        //一个一个传参数
+        add.apply('第一个参数改变this的指向',[1,2,3])       //可以传数组和类数组
+
+4、参数的类型
+function add(num1,num2){
+      return num1+num2;
+}
+形式参数 add(num1,num2)，可以当成局部变量
+实际参数 add(1,2)，实际调用的参数
+函数传递的本质就是实参赋值到形参。
+
+编程过程中出现的问题：
+1、函数嵌套的格式
+以判断两个相加的值是否是数字为例：
+function add(num1,num2) {
+    function isNumber() {
+        if(isNaN(num1) || isNaN(num2)) {
+             return alert("请传入数字类型的参数");
+        } else {
+             return +num1 + +num2;
+        }
+    }
+    return isNumber();                       //一定要加return，否则不会运行
+}
+document.write(add(21,44));            //返回65
+
+2、构造函数必须用new Function()，对象用new Object()，数组用new Array()，不能随便写。
+
+3、用functionName.apply上传的数组是一起上传的，上传后也是以数组形式存在，若逐个使用需要用for遍历。
