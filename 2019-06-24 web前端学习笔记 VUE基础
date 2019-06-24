@@ -1,0 +1,111 @@
+一、VUE基础
+
+1、Sass基础
+    1)Sass是一种css预处理工具
+    解决嵌套问题；减少css代码；解决条件逻辑问题
+    2)Sass变量和引用
+    定义变量，要以$开头，字符串可以用+连接 
+    $width: 300px !default;             /*!default代表默认值，后面任何同名的值都会覆盖default所在的值*/ 
+    $height: 300px;
+    $str: 'hello.jgeg';
+    $strNoQout: abc;
+    .div1{
+        width: $width;
+        height: $height;
+        background-image: url('./img/#{$str}');          /*#{}为差值变量，可以对字符串进行组装*/
+    }
+    3)Sass变量作用域
+    在内部定义Sass变量在外部不会生效
+    @import 'org.css';                  /*会按照css执行*/
+    @import 'base';                     /*body{margin:0;padding:0;}*/
+    设置默认值可以避免在base之前的值会被base覆盖
+    4)Sass数据类型
+    number/color/string/list（数组）/map（与JS的对象类似）
+    /*list*/
+    $list:(100px, 200px, 'string',2);
+    .div{
+        width:nth($list,1);               /*数字索引从1开始，不是从0开始，nth获取指定下标的元素*/
+        zoom:index($list,'string');     /*寻找'string'的索引*/
+    }
+    /*map*/
+    $map: (top: 1px, left: 2px, bottom: 3px, right: 4px);
+    .div{
+        top: map-get($map, top);               /*map-get为调用方法*/
+        left: map-get($map, left); 
+        @each $key, $value in $map {           /*循环遍历map，渲染出来，常用*/
+            #{$key}:$value;
+        }
+    }
+    5)Sass加减乘除基本运算
+    数字，字符串可以直接相加：$width:$num1+$num2;
+    乘法一个数加单位就可以，除法分母不加单位；
+    颜色运算：
+        color:mix($color1,$color2);
+        color:red($color1);               /*获取一个颜色的红色色值，0-255，绿色蓝色同理*/
+    @mixin用法：
+    /*一般mixin*/
+    @mixin helloMixin {
+        display: inline-block;
+        font-size:{
+            size: 20px;
+            weight: 500;
+        };
+        color: red;
+    }
+    .div {
+        @include helloMixin;
+    }
+    mixin可以嵌套，可以使用参数传递；（慕课网Sass基础 3-12）
+    6)Sass继承和嵌套
+    简单继承 @extend .div;
+    关联属性继承
+    链式继承，相同样式css会同时显示，不会覆盖，实际样式按照优先级显示
+    伪类继承
+    Sass嵌套：
+        .div {.div1 {}}
+    7)Sass条件控制
+    if：@if $type == 'bufy'{color:red;} @else if $type == 'tim'{color: blue;} @else{color: green;}
+    for：@for $i from 1 through 3 {.item#{$i}{width: 1px*i;}}   /*through包含3，to不包含3*/
+        length($list)为数组长度
+    while：$i:6;
+        @while $i>0 {.item#{$i}{width:1px*i;} $i:i-2;}
+    each
+    8)Sass内置函数
+        property:函数名($name);
+        &表示当前元素的父元素
+
+2、Vue基础详解
+    1)Vue的生命周期
+    创建好vue project后用VScode打开文件夹，其中router文件夹为路由，点开router文件夹中的index.js文件，path表示地址栏输入，页面用component确定，component中的内容是由import导入的。
+    
+    2)选项数据
+    data：表示全局组件变量的定义，定义的变量可以渲染到模板上面，叫做数据绑定；data本身就是一个函数；
+              在data(){}中的{}一定要写上return{}才不会报错。
+        data(){
+            return{}
+        }
+    computed：是一个对象，可以绑定函数；
+        computed: {
+        
+        }
+    methods：是一个对象，定义各种函数；给事件用的；
+        methods: {
+        
+        }
+    3)模板语法
+    v-bind：通过v-bind: class="red"  red='red'绑定的数据可以变化，用class="red"绑定的不能修改
+    v-on：用来绑定事件
+    @click是v-on: click的简写方式
+              
+编程过程中出现的问题：
+1、使文字变成两行，其余文字省略
+@mixin line2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+2、先用Git在项目目录下运行，才能在浏览器中成功打开网页
+    $ cd my-project
+    $ npm run dev
