@@ -1,0 +1,57 @@
+一、函数深入讲解
+
+5、参数的个数
+    1)实参 == 形参
+       实参 < 形参，没有赋值的为undefined
+    power = power || 2;      //若power为true，则返回power的值；若没传power的值，为false，则返回2的值
+       实参 > 形参
+    用类数组arguments[]，可用for遍历
+    2)arguments类数组
+    {
+        '0': 1,
+        '1': 2
+    }
+    是一个类似数组的对象；arguments修改了原数组也会修改，因为是指向同一个地址，且arguments不会跨函数；arguments.callee代表函数本身，一般用在递归中，但严格模式不能使用；
+    function factorial(num) {
+        if (num <= 1) return 1;
+        return num * arguments.callee(num-1);
+    }
+    factorial(5);                  //运算阶乘使用arguments.callee可以修改函数名
+    严格模式可以使用：
+    var factorial = function fn(num) {
+        if (num <= 1) return 1;
+        return num * fn(num-1);
+    }
+    factorial(5);                      //可以修改函数名factorial
+6、函数的返回值
+    return在函数中使用；
+    continue在循环中使用，代表跳出本次循环；
+    break在循环中使用，跳出整个循环
+
+二、VUE基础
+
+2、VUE基础详解
+    4)class与style绑定
+    第一种绑定class方式：<div v-bind: class="{'active': isActive, 'text-danger': hasError}">class1</div>，相当于class="active text-danger"，此时class属性的值可以通过isActive和hasError修改；
+    第二种绑定class方式：<div :class="classObject">class2</div>        //:class为v-bind: class简写
+        classObject:{
+            'active': true,
+            'text-danger': true
+        }
+    第三种绑定class方式：<div :class="[activeClass, errorClass]">class3</div>
+        activeClass: 'active',
+        errorClass: 'text-danger'
+style同理
+
+编程过程中出现的问题：
+1、传多个参数比较其最小值
+function min(){
+        var minNum=arguments[0];             //第一个数赋值给minNum
+        for(var i=1;i<arguments.length;i++){             //遍历要从i=1开始
+            if(minNum>arguments[i]){
+                minNum=arguments[i];
+            }
+        }
+        return minNum;
+    }
+    document.write(min.apply(window,[2,4,1,-1,5,6,3,-7]));           //用apply引入数组
