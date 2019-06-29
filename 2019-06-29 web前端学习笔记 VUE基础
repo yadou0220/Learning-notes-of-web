@@ -1,0 +1,17 @@
+二、VUE基础
+
+2、VUE基础详解
+    5)条件渲染
+    v-if：v-if="ok"，ok=true时v-if所在的标签会显示，为false时不会显示，v-else-if和v-else同理；
+    v-show：和v-if差不多。
+    6)列表渲染
+    v-for：v-for="item in item"，in相当于for循环，第二个item为数组的名字，用于数组；
+    v-for：v-for="(item, index) in items"，用于数组；
+    v-for：v-for="(value, key) in object"，用于对象。
+    7)事件处理器
+    v-on：v-on: click缩写@click，v-on: click="事件/方法名"，方法名在methods里定义；
+    @click.stop用来阻止事件冒泡。
+    8)表单控件绑定（双向数据绑定）
+    v-model：在input里使用，绑定输入框，当改变输入框的内容时data中的变量也会重新赋值（所以是双向绑定）；
+    与checkbox绑定时，勾选哪个选项data变量也会赋值为选项内容，多个选项同理，与select绑定时同理，赋值option的值；
+    
