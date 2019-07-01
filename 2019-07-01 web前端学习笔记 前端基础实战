@@ -1,0 +1,42 @@
+2019-07-01 web前端学习笔记
+
+前端基础实战
+
+1、用CSS使元素移动
+例：对.screen1_heading添加从上到下的进入动画
+
+.screen1_heading {
+    transition: all 1s;
+}
+.screen1_heading_animate_init {
+    opacity: 0;
+    transform: translate (0, -100%);
+}
+.screen1_heading_animate_done {
+    opacity: 1;
+    transform: translate (0, 0);
+}
+
+2、用JS封装函数，使屏幕获取到的class可以修改其类名
+//封装函数，给获取到的元素添加一个新的类，后缀是_animate_init
+function setScreenAnimateInit(screenCls) {
+    var screen=document.querySelector(screenCls); //将所有需要设置动画的元素传入screenCls参数中，然后从screenCls中获取当前屏的元素
+    var animateElements=screenAnimateElements[screenCls]; //获取所有需要设置动画的元素，是一个对象
+    for (var i=0; i<animateElements.length; i++) { //遍历animateElements中所有的元素
+        var element=document.querySelector(animateElements[i]); //将animateElements对象中的每一个.screen属性赋值到element上
+        var baseCls=element.getAttribute("class"); //获取每个.screen的所有元素的class属性
+        element.setAttribute("class", baseCls + " "+ baseCls + "_animate_init"); //将每个.screen的所有元素的class属性添加一个带有_animate_init后缀的类
+    }
+}
+
+
+//封装函数，将后缀改为_animate_done，与setScreenAnimateInit函数同理
+function setScreenAnimateInit(screenCls) {
+    var screen=document.querySelector(screenCls);
+    var animateElements=screenAnimateElements[screenCls];
+    for (var i=0; i<animateElements.length; i++) {
+        var element=document.querySelector(animateElements[i]);
+        var baseCls=element.getAttribute("class");
+    element.setAttribute("class", baseCls.replace("_animate_init", "_animate_done")); //将每个.screen的所有元素的class属性后缀改为_animate_done
+    }
+}
